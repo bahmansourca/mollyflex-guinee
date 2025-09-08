@@ -1,0 +1,157 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  WORKER
+}
+
+enum StockMovementType {
+  IN
+  OUT
+}
+
+enum PaymentMethod {
+  CASH
+  ORANGE_MONEY
+  BANK
+}
+
+enum PaymentStatus {
+  PAID
+  PENDING
+}
+
+enum PriceMode {
+  WHOLESALE_FIXED
+  RETAIL_CUSTOM
+}
+
+model User {
+  id            String   @id @default(cuid())
+  username      String   @unique
+  name          String
+  phone         String?
+  passwordHash  String
+  role          Role
+  createdAt     DateTime @default(now())
+  sales         Sale[]    @relation("SaleWorker")
+  containers    Container[] @relation("ContainerCreatedBy")
+  stockMovements StockMovement[]
+  deletedSales  Sale[]    @relation("SaleDeletedBy")
+  auditLogs     AuditLog[]
+  withdrawals   Withdrawal[]
+}
+
+model Product {
+  id                     String  @id @default(cuid())
+  name                   String
+  sku                    String  @unique
+  defaultWholesalePrice  Int
+  isActive               Boolean @default(true)
+  createdAt              DateTime @default(now())
+  sales                  Sale[]
+  stockMovements         StockMovement[]
+  containerItems         ContainerItem[]
+}
+
+model Container {
+  id          String        @id @default(cuid())
+  createdAt   DateTime      @default(now())
+  createdById String
+  createdBy   User          @relation("ContainerCreatedBy", fields: [createdById], references: [id])
+  note        String?
+  items       ContainerItem[]
+  stockMovements StockMovement[]
+}
+
+model ContainerItem {
+  id          String    @id @default(cuid())
+  containerId String
+  productId   String
+  quantity    Int
+  container   Container @relation(fields: [containerId], references: [id])
+  product     Product   @relation(fields: [productId], references: [id])
+}
+
+model Sale {
+  id             String         @id @default(cuid())
+  createdAt      DateTime       @default(now())
+  productId      String
+  product        Product        @relation(fields: [productId], references: [id])
+  quantity       Int
+  unitPrice      Int
+  totalAmount    Int
+  priceMode      PriceMode
+  paymentMethod  PaymentMethod?
+  paymentStatus  PaymentStatus  @default(PAID)
+  isLoan         Boolean        @default(false)
+  workerId       String
+  worker         User           @relation("SaleWorker", fields: [workerId], references: [id])
+  customerName   String
+  customerPhone  String
+  customerId     String?
+  customer       Customer?      @relation(fields: [customerId], references: [id])
+  note           String?
+  stockMovements StockMovement[]
+
+  // Soft delete support
+  deletedAt      DateTime?
+  deletedById    String?
+  deletedBy      User?          @relation("SaleDeletedBy", fields: [deletedById], references: [id])
+}
+
+model StockMovement {
+  id          String             @id @default(cuid())
+  createdAt   DateTime           @default(now())
+  type        StockMovementType
+  productId   String
+  product     Product            @relation(fields: [productId], references: [id])
+  quantity    Int
+  createdById String
+  createdBy   User               @relation(fields: [createdById], references: [id])
+  containerId String?
+  container   Container?         @relation(fields: [containerId], references: [id])
+  saleId      String?
+  sale        Sale?              @relation(fields: [saleId], references: [id])
+  note        String?
+}
+
+model Customer {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  name         String
+  phone        String   @unique
+  sales        Sale[]
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  actorId   String
+  actor     User     @relation(fields: [actorId], references: [id])
+  action    String
+  entity    String
+  entityId  String
+  meta      Json?
+}
+
+model Withdrawal {
+  id          String         @id @default(cuid())
+  createdAt   DateTime       @default(now())
+  method      PaymentMethod
+  amount      Int
+  note        String?
+  createdById String
+  createdBy   User           @relation(fields: [createdById], references: [id])
+}
