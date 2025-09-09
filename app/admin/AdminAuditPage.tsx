@@ -3,11 +3,11 @@ import { authOptions } from "@/app/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/app/lib/prisma";
 
-export default async function AdminAuditPage({ searchParams }: { searchParams?: { q?: string; action?: string; user?: string; from?: string; to?: string; page?: string } | Promise<{ [key: string]: any }> }) {
+export default async function AdminAuditPage({ searchParams }: { searchParams: Promise<{ [key: string]: any }> }) {
   const session = await getServerSession(authOptions);
   if (!session || session.role !== "ADMIN") redirect("/login");
 
-  const sp: any = (searchParams && typeof (searchParams as any).then === "function") ? await (searchParams as any) : (searchParams || {});
+  const sp: any = await searchParams;
 
   const where: any = {};
   if (sp.action) where.action = { contains: String(sp.action) };
