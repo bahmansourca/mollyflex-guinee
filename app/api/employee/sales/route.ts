@@ -18,7 +18,7 @@ export async function GET(request: Request) {
 
   const sales = await prisma.sale.findMany({
     where,
-    select: { id: true, createdAt: true, customerName: true, totalAmount: true, quantity: true, isLoan: true, paymentStatus: true },
+    select: { id: true, createdAt: true, customerName: true, totalAmount: true, quantity: true, isLoan: true, paymentStatus: true, product: { select: { name: true } } },
     orderBy: { createdAt: "desc" },
     take: 100,
   });

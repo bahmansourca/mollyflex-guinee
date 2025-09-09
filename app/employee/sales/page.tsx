@@ -63,7 +63,7 @@ export default function EmployeeSalesPage() {
             <div>
               <div className="text-sm text-gray-600">{new Date(s.createdAt).toLocaleString()}</div>
               <div className="font-medium">{s.customerName}</div>
-              <div className="text-xs text-gray-500">Qté: x {s.quantity || 1}</div>
+              <div className="text-xs text-gray-500">{s.product?.name || ''} {s.quantity ? `(${s.quantity})` : ''}</div>
             </div>
             <div className="text-right">
               <div className="font-semibold">{(s.totalAmount).toLocaleString()} GNF</div>

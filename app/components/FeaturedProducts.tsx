@@ -12,8 +12,8 @@ export default function FeaturedProducts() {
     <section className="max-w-6xl mx-auto px-6 pb-12 grid md:grid-cols-3 gap-6">
       {ITEMS.map((it) => (
         <div key={it.title} className="glass-card hover-lift overflow-hidden">
-          <div className="relative w-full h-72 bg-white">
-            <Image src={it.src} alt={it.title} fill className="object-contain object-top p-2" unoptimized />
+          <div className="relative w-full h-80 bg-white">
+            <Image src={it.src} alt={it.title} fill className="object-contain object-center p-2" unoptimized />
           </div>
           <div className="p-4">
             <div className="font-semibold">{it.title}</div>

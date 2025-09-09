@@ -52,7 +52,7 @@ async function getData() {
     take: 10,
     orderBy: { createdAt: "desc" },
     where: { deletedAt: null },
-    select: { id: true, createdAt: true, totalAmount: true, quantity: true, customerName: true, isLoan: true, paymentStatus: true, paymentMethod: true, worker: { select: { name: true } } },
+    select: { id: true, createdAt: true, totalAmount: true, quantity: true, customerName: true, isLoan: true, paymentStatus: true, paymentMethod: true, product: { select: { name: true } }, worker: { select: { name: true } } },
   });
 
   // Low stock alert threshold
@@ -200,7 +200,7 @@ export default async function AdminHome() {
               <div>
                 <div className="text-sm opacity-80">{new Date(s.createdAt).toLocaleString()}</div>
                 <div className="font-medium">{s.customerName}</div>
-                <div className="text-xs opacity-70">Qté: x {s.quantity || 1}</div>
+                <div className="text-xs opacity-70">{s.product?.name || ''} {s.quantity ? `(${s.quantity})` : ''}</div>
                 <div className="text-xs opacity-70">Vendu par: {s.worker?.name || "-"}</div>
               </div>
               <div className="text-right">
