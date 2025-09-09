@@ -2,9 +2,9 @@
 import Image from "next/image";
 
 const ITEMS = [
-  { src: "/products/matelas1.JPG", title: "Matelas Premium", desc: "Soutien ferme, accueil moelleux." },
-  { src: "/products/matelas2.JPG", title: "Matelas Confort", desc: "Respirant, anti-allergies." },
-  { src: "/products/oreiller1.JPG", title: "Oreiller Mémoire", desc: "Ergonomique, nuque détendue." },
+  { src: "/staff/pdgthierno.jpg", title: "Thierno Sadou Bah (PDG)", desc: "Direction générale et développement." },
+  { src: "/staff/employeeibrahim.jpg", title: "Ibrahim Diallo", desc: "Conseil et service client." },
+  { src: "/staff/employeealiou.jpg", title: "Aliou Bah", desc: "Support ventes et logistique." },
 ];
 
 export default function FeaturedProducts() {
