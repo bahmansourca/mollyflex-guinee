@@ -17,13 +17,13 @@ export async function GET(request: Request) {
 
   const [summary, topProducts, deletions] = await Promise.all([
     prisma.sale.aggregate({ _sum: { totalAmount: true }, _count: { _all: true }, where }),
-    prisma.sale.groupBy({ by: ["productId"], _sum: { totalAmount: true }, where, orderBy: { _sum: { totalAmount: "desc" } }, take: 5 }),
+    prisma.sale.groupBy({ by: ["productId"], _sum: { totalAmount: true, quantity: true }, where, orderBy: { _sum: { totalAmount: "desc" } }, take: 5 }),
     prisma.sale.count({ where: { ...where, deletedAt: { not: null } } as any }),
   ]);
 
   const productIds = topProducts.map((t) => t.productId);
   const products = await prisma.product.findMany({ where: { id: { in: productIds } }, select: { id: true, name: true } });
-  const top = topProducts.map((t) => ({ name: products.find((p) => p.id === t.productId)?.name || t.productId, amount: t._sum.totalAmount || 0 }));
+  const top = topProducts.map((t) => ({ name: products.find((p) => p.id === t.productId)?.name || t.productId, amount: t._sum.totalAmount || 0, count: t._sum.quantity || 0 }));
 
   return new Response(JSON.stringify({
     total: summary._sum.totalAmount || 0,

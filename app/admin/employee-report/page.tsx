@@ -54,7 +54,7 @@ export default function EmployeeReportPage() {
             <h2 className="font-semibold mb-2">Top produits</h2>
             <ul className="text-sm space-y-1">
               {data.topProducts.map((t: any) => (
-                <li key={t.name} className="flex justify-between"><span>{t.name}</span><span>{t.amount.toLocaleString()} GNF</span></li>
+                <li key={t.name} className="flex justify-between"><span>{t.name} {t.count ? `(x ${t.count})` : ''}</span><span>{t.amount.toLocaleString()} GNF</span></li>
               ))}
             </ul>
           </div>
