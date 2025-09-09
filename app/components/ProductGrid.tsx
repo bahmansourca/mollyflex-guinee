@@ -26,9 +26,9 @@ export default function ProductGrid() {
     <section className="max-w-6xl mx-auto px-6 py-12 space-y-6">
       <h2 className="text-2xl font-bold">Nos produits et tarifs</h2>
       <div className="grid md:grid-cols-3 gap-6">
-        <ProductCard title="Matelas Mollyflex (23 cm)" price="1.700.000 GNF" img="/products/matelas1.jpg" features={["Fermeté équilibrée", "Mousse haute densité"]} />
-        <ProductCard title="Matelas Mollyflex (25 cm)" price="1.800.000 GNF" img="/products/matelas2.jpg" features={["Soutien renforcé", "Ventilation optimisée"]} />
-        <ProductCard title="Oreiller Mollyflex" price="140.000 GNF" img="/products/oreiller1.jpg" features={["Confort cervical", "Respirant"]} />
+        <ProductCard title="Matelas Mollyflex (23 cm)" price="1.700.000 GNF" img="/products/matelas1.JPG" features={["Fermeté équilibrée", "Mousse haute densité"]} />
+        <ProductCard title="Matelas Mollyflex (25 cm)" price="1.800.000 GNF" img="/products/matelas2.JPG" features={["Soutien renforcé", "Ventilation optimisée"]} />
+        <ProductCard title="Oreiller Mollyflex" price="140.000 GNF" img="/products/oreiller1.JPG" features={["Confort cervical", "Respirant"]} />
       </div>
     </section>
   );
