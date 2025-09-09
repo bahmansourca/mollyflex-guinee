@@ -2,9 +2,9 @@
 import Image from "next/image";
 
 const ITEMS = [
-  { src: "/products/matelas1.jpg", title: "Matelas Premium", desc: "Soutien ferme, accueil moelleux." },
-  { src: "/products/matelas2.jpg", title: "Matelas Confort", desc: "Respirant, anti-allergies." },
-  { src: "/products/oreiller1.jpg", title: "Oreiller Mémoire", desc: "Ergonomique, nuque détendue." },
+  { src: "/products/matelas1.JPG", title: "Matelas Premium", desc: "Soutien ferme, accueil moelleux." },
+  { src: "/products/matelas2.JPG", title: "Matelas Confort", desc: "Respirant, anti-allergies." },
+  { src: "/products/oreiller1.JPG", title: "Oreiller Mémoire", desc: "Ergonomique, nuque détendue." },
 ];
 
 export default function FeaturedProducts() {
