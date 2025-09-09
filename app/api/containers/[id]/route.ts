@@ -2,9 +2,10 @@ import { prisma } from "@/app/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/lib/auth";
 
-export async function GET(_request: Request, { params }: { params: { id: string } }) {
+export async function GET(_request: Request, context: any) {
   const session = await getServerSession(authOptions);
   if (!session || session.role !== "ADMIN") return new Response("Unauthorized", { status: 401 });
+  const params = (context && typeof context.params?.then === "function") ? await context.params : context.params;
   const id = params.id;
   const container = await prisma.container.findUnique({
     where: { id },
@@ -19,9 +20,10 @@ export async function GET(_request: Request, { params }: { params: { id: string 
   return new Response(JSON.stringify(container), { headers: { "Content-Type": "application/json" } });
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, context: any) {
   const session = await getServerSession(authOptions);
   if (!session || session.role !== "ADMIN") return new Response("Unauthorized", { status: 401 });
+  const params = (context && typeof context.params?.then === "function") ? await context.params : context.params;
   const id = params.id;
   const body = await request.json();
   const items: Array<{ id?: string; productId: string; quantity: number }> = body?.items;
