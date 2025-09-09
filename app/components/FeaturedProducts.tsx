@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 const ITEMS = [
-  { src: "/staff/pdgthierno.jpg", title: "Thierno Sadou Bah (PDG)", desc: "Direction générale et développement." },
+  { src: "/pdg.jpg", title: "Thierno Sadou Bah (PDG)", desc: "Direction générale et développement." },
   { src: "/staff/employeeibrahim.jpg", title: "Ibrahim Diallo", desc: "Conseil et service client." },
   { src: "/staff/employeealiou.jpg", title: "Aliou Bah", desc: "Support ventes et logistique." },
 ];
