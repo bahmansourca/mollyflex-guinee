@@ -12,11 +12,11 @@ async function searchDirect(q: string) {
   });
 }
 
-export default async function AdminClientsPage({ searchParams }: { searchParams: { q?: string } | Promise<{ [key: string]: any }> }) {
+export default async function AdminClientsPage({ searchParams }: { searchParams: Promise<{ [key: string]: any }> }) {
   const session = await getServerSession(authOptions);
   if (!session || session.role !== "ADMIN") redirect("/login");
 
-  const sp: any = (searchParams && typeof (searchParams as any).then === "function") ? await (searchParams as any) : (searchParams || {});
+  const sp: any = await searchParams;
   const q = (sp.q as string) || "";
   const results = q ? await searchDirect(q) : [];
 
