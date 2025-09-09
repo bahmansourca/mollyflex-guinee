@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 type ChartsData = {
   day: [string, number][];
   byWorker: { label: string; value: number }[];
-  byProduct: { label: string; value: number }[];
+  byProduct: { label: string; value: number; count?: number }[];
   loans: number;
 };
 
@@ -39,9 +39,12 @@ export default function AdminCharts() {
       <div className="border rounded p-3">
         <h3 className="font-semibold mb-2">Par produit</h3>
         <ul className="text-sm text-gray-700 space-y-1">
-          {data.byProduct.map((p) => (
-            <li key={p.label} className="flex justify-between"><span>{p.label}</span><span>{p.value.toLocaleString()} GNF</span></li>
-          ))}
+          {data.byProduct.map((p) => {
+            const label = p.count && p.count > 0 ? `${p.label} (x ${p.count})` : p.label;
+            return (
+              <li key={p.label} className="flex justify-between"><span>{label}</span><span>{p.value.toLocaleString()} GNF</span></li>
+            );
+          })}
         </ul>
       </div>
     </div>
